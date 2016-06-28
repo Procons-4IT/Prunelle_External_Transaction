@@ -4,6 +4,7 @@ Imports System.Xml
 Imports System.Data
 Imports System.Data.SqlClient
 Imports System.Threading
+
 Public Class frmLoginScreen
     Inherits System.Windows.Forms.Form
 
@@ -971,6 +972,77 @@ Public Class frmLoginScreen
 
     End Sub
 
+    Private Sub ReadiniFile_FileCheck(ByVal aFileName As String)
+        Dim sqlServer As String
+
+        sPath = aFileName 'System.Windows.Forms.Application.StartupPath & "\ConnectionInfo.ini"
+        sValue = INIRead(sPath, "SqlServer", "key1-1", "")
+        strSQLServer = sValue
+
+        sValue = INIRead(sPath, "SQLUID", "Key1-2", "")
+        strSQLUID = sValue
+
+        sValue = INIRead(sPath, "SQLPWD", "Key1-3", "")
+        strSQLPWD = sValue
+
+        sValue = INIRead(sPath, "ServerType", "Key1-S1", "")
+        strLocalServertype = sValue
+
+        sValue = INIRead(sPath, "SAPCompany", "Key1-4", "")
+        strSAPCompany = sValue
+
+        sValue = INIRead(sPath, "SAPUID", "Key1-5", "")
+        strSAPUID = sValue
+
+        sValue = INIRead(sPath, "SAPPWD", "Key1-6", "")
+        strSAPPWD = sValue
+
+        sValue = INIRead(sPath, "ExportDir", "Key1-7", "")
+        strExportFilePaty = sValue
+        'sValue = INIRead(sPath, "ExportFile", "Key1-8", "")
+        'strFileStart = sValue
+        sValue = INIRead(sPath, "LogFile", "Key1-9", "")
+        strErrorLogPath = sValue
+
+        sValue = INIRead(sPath, "MainSqlServer", "key1-10", "")
+        strMainSQLServer = sValue
+
+        sValue = INIRead(sPath, "MainSQLUID", "Key1-11", "")
+        strMainSQLUID = sValue
+
+        sValue = INIRead(sPath, "MainSQLPWD", "Key1-12", "")
+        strMainSQLPWD = sValue
+
+        sValue = INIRead(sPath, "MainServerType", "Key1-M1", "")
+
+        strMainServertype = sValue
+
+        sValue = INIRead(sPath, "MainSAPCompany", "Key1-13", "")
+
+        strMainSAPCompany = sValue
+        sValue = INIRead(sPath, "MainSAPUID", "Key1-14", "")
+
+        strMainSAPUID = sValue
+        sValue = INIRead(sPath, "MainSAPPWD", "Key1-15", "")
+
+        strMainSAPPWD = sValue
+        strMainSAPPWD = sValue
+
+        sValue = INIRead(sPath, "MainLicense", "Key1-16", "")
+        strMainLicenseServer = sValue
+
+        sValue = INIRead(sPath, "LocalLicense", "Key1-17", "")
+        strLocalLicensserver = sValue
+
+        sValue = INIRead(sPath, "StartDate", "Key1-18", "")
+        strStartDate = sValue
+
+        sValue = INIRead(sPath, "EndDate", "Key1-19", "")
+        strEndDate = sValue
+
+
+    End Sub
+
     Private Sub ReadiniFile_Folder()
        
         Dim SOURCE, DESGINGNATIONSUCCESS, DESGFAIL, strTempFolder1, strExportDirectory As String
@@ -1097,58 +1169,11 @@ Public Class frmLoginScreen
 #End Region
 
 #Region "Events"
+    Private Sub LoadForm()
+        'System.Diagnostics.Debugger.Launch()
+        CheckForIllegalCrossThreadCalls = False
+        Me.Visible = False
 
-    Private Sub frmLoginScreen_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Activated
-
-    End Sub
-
-    Private Sub frmLoginScreen_FormClosed(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosedEventArgs) Handles Me.FormClosed
-        System.GC.Collect()
-        End
-    End Sub
-
-#Region "Check Duplicate process"
-    Private Function CheckDuplicateProcess() As Boolean
-        Dim MatchingNames As System.Diagnostics.Process()
-        Dim TargetName As String
-        TargetName = System.Diagnostics.Process.GetCurrentProcess.ProcessName
-
-        MatchingNames = System.Diagnostics.Process.GetProcessesByName(TargetName)
-        If (MatchingNames.Length = 1) Then
-            ' MsgBox("Started...")
-            Return True
-
-        Else
-            '   MsgBox("Process already running")
-            Return False
-
-        End If
-
-
-
-    End Function
-
-    Public Function PrevInstance() As Boolean
-        If UBound(Diagnostics.Process.GetProcessesByName(Diagnostics.Process.GetCurrentProcess.ProcessName)) > 0 Then
-            Return True
-        Else
-            Return False
-        End If
-    End Function
-
-#End Region
-    '****************************************************************************
-    'Type              :   Procedure     
-    'Name              :   
-    'Parameter         :   
-    'Return Value      : 
-    'Author            :   DEV-3
-    'Created Date      :   
-    'Last Modified By  : 
-    'Modified Date     : 
-    'Purpose           :   To Handle Events
-    '****************************************************************************
-    Private Sub frmLoginScreen_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Dim strPath, strFilename, strMessage As String
         Dim SOURCE, DESGINGNATIONSUCCESS, DESGFAIL, strTempFolder1, strExportDirectory As String
         SOURCE = System.Windows.Forms.Application.StartupPath & "\ConnectionInfo"
@@ -1159,12 +1184,13 @@ Public Class frmLoginScreen
         If CheckDuplicateProcess() = False Then
             End
         End If
+
         For Each fi In aryFi
             Try
                 strImpFilename = fi.FullName
                 strFile = fi.Name
                 sPath = SOURCE & "\" & strFile ' & ".ini"
-                ReadiniFile_File(sPath)
+                ReadiniFile_FileCheck(sPath)
                 ' ReadiniFile()
                 If ValidateFilePaths() = False Then
                     End
@@ -1191,7 +1217,7 @@ Public Class frmLoginScreen
                     dtEndDate = New DateTime(CInt(styear), CInt(stMonth), CInt(stDate))
                     ' dtEndDate = New DateTime(strEndDate.Substring(0, 4), strEndDate.Substring(5, 2), strEndDate.Substring(6, 2))
                 End If
-                If connectLocalCompany() = False Or connectMainCompany() = False Then
+                If connectLocalCompanyCheck() = False Or connectMainCompanyCheck() = False Then
                     strMessage = ("Connection to SAP B1 failed. Check the ConnectionInfo.ini ")
                     WriteErrorlog(strMessage, strPath)
                     ' End
@@ -1204,10 +1230,7 @@ Public Class frmLoginScreen
                     Do While dtStartDate <= dtEndDate
                         dtPostingDate = dtStartDate
                         WriteErrorlog("Documents Process Started  : " & objRemoteCompany.CompanyDB & " : Date : " & dtStartDate.ToString("yyyy-MM-dd"), sPath)
-                        Me.Hide()
-                        'Me.Hide()
-                        'Me.Hide()
-                        'Me.Hide()
+
                         Try
                             ExportDocuments("PO")
                         Catch ex As Exception
@@ -1360,6 +1383,272 @@ Public Class frmLoginScreen
             End Try
         Next
         End
+
+    End Sub
+    Private Sub frmLoginScreen_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Activated
+
+    End Sub
+
+    Private Sub frmLoginScreen_FormClosed(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosedEventArgs) Handles Me.FormClosed
+        System.GC.Collect()
+        End
+    End Sub
+
+#Region "Check Duplicate process"
+    Private Function CheckDuplicateProcess() As Boolean
+        Dim MatchingNames As System.Diagnostics.Process()
+        Dim TargetName As String
+        TargetName = System.Diagnostics.Process.GetCurrentProcess.ProcessName
+
+        MatchingNames = System.Diagnostics.Process.GetProcessesByName(TargetName)
+        If (MatchingNames.Length = 1) Then
+            ' MsgBox("Started...")
+            Return True
+
+        Else
+            '   MsgBox("Process already running")
+            Return False
+
+        End If
+
+
+
+    End Function
+
+    Public Function PrevInstance() As Boolean
+        If UBound(Diagnostics.Process.GetProcessesByName(Diagnostics.Process.GetCurrentProcess.ProcessName)) > 0 Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
+#End Region
+    '****************************************************************************
+    'Type              :   Procedure     
+    'Name              :   
+    'Parameter         :   
+    'Return Value      : 
+    'Author            :   DEV-3
+    'Created Date      :   
+    'Last Modified By  : 
+    'Modified Date     : 
+    'Purpose           :   To Handle Events
+    '****************************************************************************
+    Private Sub frmLoginScreen_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim newThread As New Thread(Sub() Me.LoadForm())
+        newThread.Start()
+
+        'System.Diagnostics.Debugger.Launch()
+        'Dim strPath, strFilename, strMessage As String
+        'Dim SOURCE, DESGINGNATIONSUCCESS, DESGFAIL, strTempFolder1, strExportDirectory As String
+        'SOURCE = System.Windows.Forms.Application.StartupPath & "\ConnectionInfo"
+        'Dim di As New IO.DirectoryInfo(SOURCE)
+        'Dim aryFi As IO.FileInfo() = di.GetFiles("*.ini")
+        'Dim fi As IO.FileInfo
+        'Dim strsourcetrg, strdesgtrg, strImpFilename, strFile As String
+        'If CheckDuplicateProcess() = False Then
+        '    End
+        'End If
+
+        'For Each fi In aryFi
+        '    Try
+        '        strImpFilename = fi.FullName
+        '        strFile = fi.Name
+        '        sPath = SOURCE & "\" & strFile ' & ".ini"
+        '        ReadiniFile_File(sPath)
+        '        ' ReadiniFile()
+        '        If ValidateFilePaths() = False Then
+        '            End
+        '            'Exit Sub
+        '        End If
+        '        strPath = strErrorLogPath ' System.Windows.Forms.Application.StartupPath
+        '        strFilename = Now.ToLongDateString
+        '        strPath = strPath & "\Log_Documents" & strFilename & ".txt"
+        '        strErrorFileName = strPath
+        '        WriteErrorHeader(strPath, "Start connecting..")
+        '        Dim styear, stMonth, stDate As String
+
+        '        If strStartDate.Length = 8 Then
+        '            styear = strStartDate.Substring(0, 4)
+        '            stMonth = strStartDate.Substring(4, 2)
+        '            stDate = strStartDate.Substring(6, 2)
+        '            dtStartDate = New DateTime(CInt(styear), CInt(stMonth), CInt(stDate))
+        '        End If
+
+        '        If strEndDate.Length = 8 Then
+        '            styear = strEndDate.Substring(0, 4)
+        '            stMonth = strEndDate.Substring(4, 2)
+        '            stDate = strEndDate.Substring(6, 2)
+        '            dtEndDate = New DateTime(CInt(styear), CInt(stMonth), CInt(stDate))
+        '            ' dtEndDate = New DateTime(strEndDate.Substring(0, 4), strEndDate.Substring(5, 2), strEndDate.Substring(6, 2))
+        '        End If
+        '        If connectLocalCompany() = False Or connectMainCompany() = False Then
+        '            strMessage = ("Connection to SAP B1 failed. Check the ConnectionInfo.ini ")
+        '            WriteErrorlog(strMessage, strPath)
+        '            ' End
+        '        Else
+        '            sPath = strErrorLogPath
+        '            Dim dtStart, dtEnd As Date
+        '            dtStart = dtStartDate
+        '            dtEnd = dtEndDate
+        '            WriteErrorlog("Documents Process Started  : " & objRemoteCompany.CompanyDB & " : Period  : " & dtStartDate.ToString("yyyy-MM-dd") & " To : " & dtEnd.ToString("yyyy-MM-dd"), sPath)
+        '            Do While dtStartDate <= dtEndDate
+        '                dtPostingDate = dtStartDate
+        '                WriteErrorlog("Documents Process Started  : " & objRemoteCompany.CompanyDB & " : Date : " & dtStartDate.ToString("yyyy-MM-dd"), sPath)
+        '                Me.Hide()
+        '                Try
+        '                    ExportDocuments("PO")
+        '                Catch ex As Exception
+        '                    strMessage = (ex.Message)
+        '                    WriteErrorlog(strMessage, strPath)
+        '                End Try
+        '                Try
+        '                    UpdateExchangerate_Main("USD", Now.Date, objMainCompany)
+        '                Catch ex As Exception
+        '                End Try
+        '                Dim OLoopRs, objRemoteRec1 As SAPbobsCOM.Recordset
+        '                Dim oDb As SAPbobsCOM.Recordset
+        '                oDb = objMainCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset)
+        '                Dim s1 As String = "SELECT Code from [@Z_DBSYN] where U_Active='Y' and  '" & dtPostingDate.ToString("yyyy-MM-dd") & "' between U_FrmDate and U_ToDate"
+        '                OLoopRs = objMainCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset)
+        '                Dim s As String = "Select * from OJDT where isnull(U_Export,'N')='N'  and  RefDate='" & dtPostingDate.ToString("yyyy-MM-dd") & "' and TransType in (" & s1 & ") order by TransID"
+        '                OLoopRs.DoQuery(s)
+        '                Dim strTransID As String
+        '                For intLoop1 As Integer = 0 To OLoopRs.RecordCount - 1
+        '                    Dim strBaseType1 As String = OLoopRs.Fields.Item("TransType").Value
+        '                    Dim strBaseRef1 As String = OLoopRs.Fields.Item("createdBy").Value
+        '                    strTransID = OLoopRs.Fields.Item("TransID").Value
+        '                    Select Case strBaseType1
+        '                        Case "20"
+        '                            Try
+        '                                ExportDocuments("GRPO", strBaseRef1, strTransID)
+        '                            Catch ex As Exception
+        '                                strMessage = (ex.Message & " --> " & ex.StackTrace)
+        '                                WriteErrorlog(strMessage, strPath)
+        '                            End Try
+        '                        Case "21"
+        '                            Try
+        '                                ExportDocuments("GR", strBaseRef1, strTransID)
+        '                            Catch ex As Exception
+        '                                strMessage = (ex.Message & " --> " & ex.StackTrace)
+        '                                WriteErrorlog(strMessage, strPath)
+        '                            End Try
+        '                        Case "18"
+        '                            Try
+        '                                ExportDocuments("APInvoice", strBaseRef1, strTransID)
+        '                            Catch ex As Exception
+        '                                strMessage = (ex.Message & " --> " & ex.StackTrace)
+        '                                WriteErrorlog(strMessage, strPath)
+        '                            End Try
+
+        '                        Case "19"
+        '                            Try
+        '                                ExportDocuments("APCR", strBaseRef1, strTransID)
+        '                            Catch ex As Exception
+
+        '                            End Try
+        '                        Case "13"
+        '                            'sales document
+        '                            Try
+        '                                ExportDocuments("ARReser", strBaseRef1, strTransID)
+        '                            Catch ex As Exception
+        '                                strMessage = (ex.Message & " --> " & ex.StackTrace)
+        '                                WriteErrorlog(strMessage, strPath)
+        '                            End Try
+        '                            Try
+        '                                ExportDocuments_Canceled("ARReser", strBaseRef1, strTransID)
+        '                            Catch ex As Exception
+        '                                strMessage = (ex.Message & " --> " & ex.StackTrace)
+        '                                WriteErrorlog(strMessage, strPath)
+        '                            End Try
+        '                            Try
+        '                                ExportDocuments("Invoice", strBaseRef1, strTransID)
+        '                            Catch ex As Exception
+        '                                strMessage = (ex.Message & " --> " & ex.StackTrace)
+        '                                WriteErrorlog(strMessage, strPath)
+        '                            End Try
+        '                            Try
+        '                                ExportDocuments_Canceled("Invoice", strBaseRef1, strTransID)
+        '                            Catch ex As Exception
+        '                                strMessage = (ex.Message & " --> " & ex.StackTrace)
+        '                                WriteErrorlog(strMessage, strPath)
+        '                            End Try
+        '                        Case "15"
+
+        '                            Try
+        '                                ExportDocuments("Delivery", strBaseRef1, strTransID)
+        '                            Catch ex As Exception
+        '                                strMessage = (ex.Message & " --> " & ex.StackTrace)
+        '                                WriteErrorlog(strMessage, strPath)
+        '                            End Try
+        '                        Case "14"
+        '                            Try
+        '                                ExportDocuments("CreditNote", strBaseRef1, strTransID)
+        '                            Catch ex As Exception
+        '                                strMessage = (ex.Message & " --> " & ex.StackTrace)
+        '                                WriteErrorlog(strMessage, strPath)
+        '                            End Try
+        '                        Case "30"
+        '                            objRemoteRec1 = objMainCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset)
+        '                            objRemoteRec1.DoQuery("SELECT * from [@Z_DBSYN] where isnull(U_Active,'N')='Y' and Code='30'")
+        '                            If objRemoteRec1.RecordCount > 0 Then
+        '                                Try
+        '                                    ImportJournalEntries(OLoopRs.Fields.Item("TransID").Value)
+        '                                Catch ex As Exception
+        '                                    strMessage = (ex.Message & " --> " & ex.StackTrace)
+        '                                    WriteErrorlog(strMessage, strPath)
+        '                                End Try
+        '                            End If
+        '                        Case "25"
+        '                            objRemoteRec1 = objMainCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset)
+        '                            objRemoteRec1.DoQuery("SELECT * from [@Z_DBSYN] where isnull(U_Active,'N')='Y' and Code='25'")
+        '                            If objRemoteRec1.RecordCount > 0 Then
+        '                                Try
+        '                                    ImportBankDepositJournal(strBaseRef1)
+        '                                Catch ex As Exception
+        '                                    strMessage = (ex.Message & " --> " & ex.StackTrace)
+        '                                    WriteErrorlog(strMessage, strPath)
+        '                                End Try
+        '                            End If
+        '                        Case "46"
+        '                            objRemoteRec1 = objMainCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset)
+        '                            objRemoteRec1.DoQuery("SELECT * from [@Z_DBSYN] where isnull(U_Active,'N')='Y' and Code='46'")
+        '                            If objRemoteRec1.RecordCount > 0 Then
+        '                                Try
+        '                                    ExportOutgoingPaymentDocument(strBaseRef1)
+        '                                Catch ex As Exception
+        '                                    strMessage = (ex.Message & " --> " & ex.StackTrace)
+        '                                    WriteErrorlog(strMessage, strPath)
+        '                                End Try
+        '                            End If
+        '                        Case "24"
+        '                            objRemoteRec1 = objMainCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset)
+        '                            objRemoteRec1.DoQuery("SELECT * from [@Z_DBSYN] where isnull(U_Active,'N')='Y' and Code='24'")
+        '                            If objRemoteRec1.RecordCount > 0 Then
+        '                                Try
+        '                                    ExportIncomingPaymentDocument(strBaseRef1)
+        '                                Catch ex As Exception
+        '                                    strMessage = (ex.Message & " --> " & ex.StackTrace)
+        '                                    WriteErrorlog(strMessage, strPath)
+        '                                End Try
+        '                            End If
+
+        '                    End Select
+        '                    OLoopRs.MoveNext()
+        '                    'Thread.Sleep(2000)
+        '                Next
+        '                dtStartDate = dtStartDate.AddDays(1)
+        '            Loop
+        '            WriteErrorlog("Export/Import Process Completed : " & objRemoteCompany.CompanyDB, sPath)
+        '        End If
+        '    Catch ex As Exception
+        '        strMessage = (ex.Message)
+        '        WriteErrorlog(strMessage, strPath)
+        '        End
+        '    End Try
+        'Next
+        'End
     End Sub
 
 #Region "Export Incoming Payment Doocuments"
@@ -2312,8 +2601,9 @@ Public Class frmLoginScreen
         Dim strCode As String = ""
         Dim blnCanceled As Boolean = False
         Try
-            objremoteDoc = objMainCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseOrders)
-            objMainDoc = objRemoteCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseOrders)
+
+            'objremoteDoc = objMainCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseOrders)
+            'objMainDoc = objRemoteCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseOrders)
             Select Case aChoice
                 Case "PO"
                     strCode = "22"
@@ -2632,10 +2922,12 @@ Public Class frmLoginScreen
                                             objMainDoc.Lines.SetCurrentLine(intLoop)
                                             objremoteDoc.Lines.SetCurrentLine(intLoop)
 
-                                            If aChoice <> "GRPO" And objremoteDoc.Lines.BaseType <> -1 And getbaseDocument(objremoteDoc.Lines.BaseEntry, objremoteDoc.Lines.BaseEntry, objremoteDoc.Lines.BaseType, objMainCompany.CompanyName) > 0 Then 'objremoteDoc.Lines.BaseEntry aChoice <> "ARReser" And aChoice <> "GRPO" And aChoice <> "PO" Then
+                                            '  If aChoice <> "GRPO" And objremoteDoc.Lines.BaseType <> -1 And getbaseDocument(objremoteDoc.Lines.BaseEntry, objremoteDoc.Lines.BaseEntry, objremoteDoc.Lines.BaseType, objMainCompany.CompanyName) > 0 Then 'objremoteDoc.Lines.BaseEntry aChoice <> "ARReser" And aChoice <> "GRPO" And aChoice <> "PO" Then
+                                            If aChoice <> "GRPO" And objremoteDoc.Lines.BaseType <> -1 And getbaseDocument_BaseLine(objremoteDoc.Lines.BaseEntry, objremoteDoc.Lines.BaseEntry, objremoteDoc.Lines.BaseType, objMainCompany.CompanyName, objremoteDoc.Lines.BaseLine) <> 9999 And getbaseDocument(objremoteDoc.Lines.BaseEntry, objremoteDoc.Lines.BaseEntry, objremoteDoc.Lines.BaseType, objMainCompany.CompanyName) > 0 Then 'objremoteDoc.Lines.BaseEntry aChoice <> "ARReser" And aChoice <> "GRPO" And aChoice <> "PO" Then
                                                 objMainDoc.Lines.BaseType = objremoteDoc.Lines.BaseType
                                                 objMainDoc.Lines.BaseEntry = getbaseDocument(objremoteDoc.Lines.BaseEntry, objremoteDoc.Lines.BaseEntry, objremoteDoc.Lines.BaseType, objMainCompany.CompanyName) 'objremoteDoc.Lines.BaseEntry
-                                                objMainDoc.Lines.BaseLine = objremoteDoc.Lines.BaseLine
+                                                '  objMainDoc.Lines.BaseLine = objremoteDoc.Lines.BaseLine
+                                                objMainDoc.Lines.BaseLine = getbaseDocument_BaseLine(objremoteDoc.Lines.BaseEntry, objremoteDoc.Lines.BaseEntry, objremoteDoc.Lines.BaseType, objMainCompany.CompanyName, objremoteDoc.Lines.BaseLine) ' objremoteDoc.Lines.BaseLine
                                                 objMainDoc.Lines.ProjectCode = objremoteDoc.Lines.ProjectCode
                                                 If objremoteDoc.DocType = SAPbobsCOM.BoDocumentTypes.dDocument_Service Then
                                                     objMainDoc.Lines.AccountCode = objremoteDoc.Lines.AccountCode
@@ -2806,24 +3098,29 @@ Public Class frmLoginScreen
                                     End If
                                 End If
                             End If
-                            End If
                         End If
+                    End If
                 Catch ex As Exception
                     WriteErrorlog("Failed to create Documents Error  :" & ex.Message & " --> " & ex.StackTrace, sPath)
                 End Try
                 objremoteRec.MoveNext()
             Next
+
         Catch ex As Exception
+            WriteErrorlog("Current Document : " & aChoice & " " & aJournalNo, sPath)
             WriteErrorlog(ex.Message & " --> " & ex.StackTrace, sPath)
         Finally
             If Not IsNothing(objremoteDoc) Then
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(objremoteDoc)
+                GC.Collect()
             End If
             If Not IsNothing(objMainDoc) Then
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(objMainDoc)
+                GC.Collect()
             End If
             If Not IsNothing(objMainDoc1) Then
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(objMainDoc1)
+                GC.Collect()
             End If
             'If Not IsNothing(objremoteRec) Then
             '    System.Runtime.InteropServices.Marshal.ReleaseComObject(objremoteRec)
@@ -2831,6 +3128,84 @@ Public Class frmLoginScreen
             ' System.Runtime.InteropServices.Marshal.ReleaseComObject(objMainDoc)
         End Try
     End Sub
+
+    Private Function getbaseDocument_BaseLine(ByVal aDocEntry As Integer, ByVal aDocNum As Integer, ByVal aBasetype As Double, ByVal aBranch As String, ByVal aLineID As Integer) As Integer
+        Dim str As String
+        Dim str2 As String
+        Dim str5 As String
+        Dim businessObject As SAPbobsCOM.Recordset = DirectCast(SubMain.objMainCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+        Dim recordset2 As SAPbobsCOM.Recordset = DirectCast(SubMain.objRemoteCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+        Dim recordset3 As SAPbobsCOM.Recordset = DirectCast(SubMain.objMainCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+        Select Case aBasetype
+            Case 22
+                str5 = "OPOR"
+                str = "POR1"
+                Exit Select
+            Case 21
+                str5 = "ORPD"
+                str = "RPD1"
+                Exit Select
+            Case 18
+                str5 = "OPCH"
+                str = "PCH1"
+                Exit Select
+            Case 20
+                str5 = "OPDN"
+                str = "PDN1"
+                Exit Select
+            Case 19
+                str5 = "ORPC"
+                str = "RPC1"
+                Exit Select
+            Case 100
+                str5 = "OWOR"
+                str = "WOR1"
+                Exit Select
+            Case 202
+                str5 = "OWOR"
+                str = "WOR1"
+                Exit Select
+            Case 30
+                str5 = "OJDT"
+                str = "JDT1"
+                Exit Select
+            Case 13
+                str5 = "OINV"
+                str = "INV1"
+                Exit Select
+            Case 46
+                str5 = "OVPM"
+                str = "VPM1"
+                Exit Select
+        End Select
+        If ((aBasetype = "-1") Or (str5 = "")) Then
+            Return 9999
+        End If
+        If (aBasetype = 46) Then
+            str2 = ("Select BaseRef from OJDT where TransID=" & aDocEntry)
+            businessObject.DoQuery(str2)
+            If (businessObject.RecordCount > 0) Then
+                str5 = "OVPM"
+                aDocEntry = (businessObject.Fields.Item(0).Value)
+                str2 = ("Select TransId from OJDT where TransType=46 and   BaseRef=" & aDocEntry)
+                recordset2.DoQuery(str2)
+                If (recordset2.RecordCount > 0) Then
+                    Return recordset2.Fields.Item(0).Value
+                End If
+                Return 9999
+            End If
+        End If
+        If (str5 <> "OJDT") Then
+            str2 = "Select VisOrder from " & str & " where DocEntry=" & aDocEntry & " and LineNum=" & aLineID
+        Else
+            str2 = "Select TransId from " & str & " where U_Branch='" & aBranch & "' and   U_BaseEntry=" & aDocEntry
+        End If
+        businessObject.DoQuery(str2)
+        If (businessObject.RecordCount > 0) Then
+            Return businessObject.Fields.Item(0).Value
+        End If
+        Return 9999
+    End Function
     Private Sub ExportDocuments_Canceled(ByVal aChoice As String, Optional ByVal adocentry As String = "", Optional ByVal aJournalNo As String = "")
         Dim conn As New SqlConnection()
         Dim objMainDoc, objremoteDoc, objMainDoc1 As SAPbobsCOM.Documents
@@ -2843,8 +3218,8 @@ Public Class frmLoginScreen
         Dim strCode As String = ""
         Dim blnCanceled As Boolean = False
         Try
-            objremoteDoc = objMainCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseOrders)
-            objMainDoc = objRemoteCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseOrders)
+            'objremoteDoc = objMainCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseOrders)
+            'objMainDoc = objRemoteCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseOrders)
             Select Case aChoice
                 Case "PO"
                     strCode = "22"
@@ -3282,12 +3657,15 @@ Public Class frmLoginScreen
         Finally
             If Not IsNothing(objremoteDoc) Then
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(objremoteDoc)
+                GC.Collect()
             End If
             If Not IsNothing(objMainDoc) Then
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(objMainDoc)
+                GC.Collect()
             End If
             If Not IsNothing(objMainDoc1) Then
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(objMainDoc1)
+                GC.Collect()
             End If
             'If Not IsNothing(objremoteRec) Then
             '    System.Runtime.InteropServices.Marshal.ReleaseComObject(objremoteRec)
@@ -3417,6 +3795,11 @@ Public Class frmLoginScreen
             Return True
         ElseIf Not IsNothing(oDuplicateCheck) Then
             System.Runtime.InteropServices.Marshal.ReleaseComObject(oDuplicateCheck)
+            GC.Collect()
+        End If
+        If Not IsNothing(oDuplicateCheck) Then
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(oDuplicateCheck)
+            GC.Collect()
         End If
         Return False
 
@@ -4667,6 +5050,7 @@ Public Class frmLoginScreen
         Finally
             If Not IsNothing(otempRec1) Then
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(otempRec1)
+                GC.Collect()
             End If
         End Try
     End Function
@@ -5006,10 +5390,10 @@ Public Class frmLoginScreen
                                                 objRemoteREC1.DoQuery("Select * from RCT4 where DocNum=" & ObjRemoteDoc.DocEntry & " and LineID=" & intAcctLoop)
                                                 If objRemoteREC1.Fields.Item("AppliedFC").Value > 0 Then
                                                     objMainDoc.AccountPayments.SumPaid = Math.Round(ObjRemoteDoc.AccountPayments.SumPaid / ObjRemoteDoc.DocRate, 2)
-                                                    objMainDoc.AccountPayments.VatAmount = Math.Round(ObjRemoteDoc.AccountPayments.VatAmount / ObjRemoteDoc.DocRate, 2)
+                                                    'objMainDoc.AccountPayments.VatAmount = Math.Round(ObjRemoteDoc.AccountPayments.VatAmount / ObjRemoteDoc.DocRate, 2)
                                                 Else
                                                     objMainDoc.AccountPayments.SumPaid = ObjRemoteDoc.AccountPayments.SumPaid
-                                                    objMainDoc.AccountPayments.VatAmount = ObjRemoteDoc.AccountPayments.VatAmount
+                                                    ' objMainDoc.AccountPayments.VatAmount = ObjRemoteDoc.AccountPayments.VatAmount
                                                 End If
                                                 objMainDoc.AccountPayments.ProfitCenter = ObjRemoteDoc.AccountPayments.ProfitCenter
                                                 objMainDoc.AccountPayments.ProjectCode = ObjRemoteDoc.AccountPayments.ProjectCode
@@ -5044,11 +5428,12 @@ Public Class frmLoginScreen
                 Finally
                     If Not IsNothing(ObjRemoteDoc) Then
                         System.Runtime.InteropServices.Marshal.ReleaseComObject(ObjRemoteDoc)
+                        GC.Collect()
                     End If
                     If Not IsNothing(objMainDoc) Then
                         System.Runtime.InteropServices.Marshal.ReleaseComObject(objMainDoc)
+                        GC.Collect()
                     End If
-
                 End Try
                 objremoteRec.MoveNext()
             Next
@@ -5056,14 +5441,14 @@ Public Class frmLoginScreen
             WriteErrorlog(ex.Message, sPath)
             WriteErrorlog("Failed to create Incomint payment Error  :" & ex.StackTrace, sPath)
         Finally
-            'If Not IsNothing(objremoteRec) Then
-            '    System.Runtime.InteropServices.Marshal.ReleaseComObject(objremoteRec)
-            'End If
-            'If Not IsNothing(objRemoteREC1) Then
-            '    System.Runtime.InteropServices.Marshal.ReleaseComObject(objRemoteREC1)
-            'End If
-
-
+            If Not IsNothing(ObjRemoteDoc) Then
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(ObjRemoteDoc)
+                GC.Collect()
+            End If
+            If Not IsNothing(objMainDoc) Then
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(objMainDoc)
+                GC.Collect()
+            End If
         End Try
 
     End Sub
@@ -5109,9 +5494,11 @@ Public Class frmLoginScreen
                 Finally
                     If Not IsNothing(ObjRemoteDoc) Then
                         System.Runtime.InteropServices.Marshal.ReleaseComObject(ObjRemoteDoc)
+                        GC.Collect()
                     End If
                     If Not IsNothing(objMainDoc) Then
                         System.Runtime.InteropServices.Marshal.ReleaseComObject(objMainDoc)
+                        GC.Collect()
                     End If
 
                 End Try
@@ -6485,6 +6872,7 @@ Public Class frmLoginScreen
             End If
             objremoteRec.MoveNext()
         Next
+
     End Sub
 
     Private Sub ImportCreditNotes(ByVal aCompany As SAPbobsCOM.Company)
@@ -6493,164 +6881,173 @@ Public Class frmLoginScreen
         Dim strPath, strFilename, strMessage As String
         Dim strFileName1, strBranchWhs, strMainWhs As String
         Dim objremoteRec, objMainrec As SAPbobsCOM.Recordset
-        objremoteRec = objRemoteCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset)
-        'objremoteRec.DoQuery("Select DocEntry from ORIN where  DocType='I' and  isnull(U_Export,'N')='N'")
-        objMainrec = objMainCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset)
-        objremoteRec.DoQuery("Select DocEntry from ORIN where   isnull(U_Export,'N')='N'")
+        Try
+            objremoteRec = objRemoteCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset)
+            objMainrec = objMainCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset)
+            objremoteRec.DoQuery("Select DocEntry from ORIN where   isnull(U_Export,'N')='N'")
 
-        'Header fields – customer code, customer name, posting date, due date, document date, customer reference number, remarks, Total before discount, discount %, Tax, Total, Applied Amount, Balance Due
-        'Line fields – item code, item name, barcode, quantity, unit price, discount %, price after discount, vat code, Gross price, Total (LC)
-        For intRemoteLoop As Integer = 0 To objremoteRec.RecordCount - 1
-            objremoteDoc = objRemoteCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oCreditNotes)
-            If objremoteDoc.GetByKey(Convert.ToInt32(objremoteRec.Fields.Item(0).Value)) Then
-                objMainDoc = objMainCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oCreditNotes)
-                objMainDoc.CardCode = objremoteDoc.CardCode
-                objMainDoc.DocDate = objremoteDoc.DocDate
-                objMainDoc.DocDueDate = objremoteDoc.DocDueDate
-                objMainDoc.NumAtCard = objremoteDoc.NumAtCard
-                objMainDoc.Comments = objremoteDoc.Comments
-                objMainDoc.DiscountPercent = objremoteDoc.DiscountPercent
-                objMainDoc.DocCurrency = objremoteDoc.DocCurrency
-                objMainDoc.ShipToCode = objremoteDoc.ShipToCode
-                objMainDoc.SalesPersonCode = objremoteDoc.SalesPersonCode
-                objMainDoc.TaxDate = objremoteDoc.TaxDate
-                objMainDoc.PaymentGroupCode = objremoteDoc.PaymentGroupCode
-                objMainDoc.Address = objremoteDoc.Address
-                objMainDoc.Address2 = objremoteDoc.Address2
-                objMainDoc.AgentCode = objremoteDoc.AgentCode
-                objMainDoc.BPChannelCode = objremoteDoc.BPChannelCode
-                objMainDoc.BPChannelContact = objremoteDoc.BPChannelContact
-                objMainDoc.ContactPersonCode = objremoteDoc.ContactPersonCode
-                objMainDoc.DocRate = objremoteDoc.DocRate
-                objMainDoc.DocType = objremoteDoc.DocType
-                '  objMainDoc.TransportationCode = objremoteDoc.TransportationCode
-                If objremoteDoc.Rounding = SAPbobsCOM.BoYesNoEnum.tYES Then
-                    objMainDoc.Rounding = SAPbobsCOM.BoYesNoEnum.tYES
-                    objMainDoc.RoundingDiffAmount = objremoteDoc.RoundingDiffAmount
-                Else
-                    objMainDoc.Rounding = SAPbobsCOM.BoYesNoEnum.tNO
-                End If
-
-                'Document_LinesClass' 
-                objMainDoc.UserFields.Fields.Item("U_Import").Value = "Y"
-                objMainDoc.UserFields.Fields.Item("U_BaseEntry").Value = objremoteDoc.DocEntry
-                objMainDoc.UserFields.Fields.Item("U_BaseNum").Value = (objremoteDoc.DocNum)
-                objMainDoc.UserFields.Fields.Item("U_Branch").Value = objRemoteCompany.CompanyName
-                For IntExp As Integer = 0 To objremoteDoc.Expenses.Count - 1
-                    If objremoteDoc.Expenses.LineTotal > 0 Then
-                        If IntExp > 0 Then
-                            objMainDoc.Expenses.Add()
-                            objMainDoc.Expenses.SetCurrentLine(IntExp)
-                        End If
-                        objremoteDoc.Expenses.SetCurrentLine(IntExp)
-                        objMainDoc.Expenses.BaseDocEntry = objremoteDoc.Expenses.BaseDocEntry
-                        objMainDoc.Expenses.BaseDocLine = objremoteDoc.Expenses.BaseDocLine
-                        objMainDoc.Expenses.BaseDocType = objremoteDoc.Expenses.BaseDocType
-                        objMainDoc.Expenses.DistributionMethod = objremoteDoc.Expenses.DistributionMethod
-                        objMainDoc.Expenses.DistributionRule = objremoteDoc.Expenses.DistributionRule
-                        objMainDoc.Expenses.ExpenseCode = objremoteDoc.Expenses.ExpenseCode
-                        objMainDoc.Expenses.LastPurchasePrice = objremoteDoc.Expenses.LastPurchasePrice
-                        objMainDoc.Expenses.LineTotal = objremoteDoc.Expenses.LineTotal
-                        objMainDoc.Expenses.Remarks = objremoteDoc.Expenses.Remarks
-                        objMainDoc.Expenses.TaxCode = objremoteDoc.Expenses.TaxCode
-                        objMainDoc.Expenses.VatGroup = objremoteDoc.Expenses.VatGroup
+            For intRemoteLoop As Integer = 0 To objremoteRec.RecordCount - 1
+                objremoteDoc = objRemoteCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oCreditNotes)
+                If objremoteDoc.GetByKey(Convert.ToInt32(objremoteRec.Fields.Item(0).Value)) Then
+                    objMainDoc = objMainCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oCreditNotes)
+                    objMainDoc.CardCode = objremoteDoc.CardCode
+                    objMainDoc.DocDate = objremoteDoc.DocDate
+                    objMainDoc.DocDueDate = objremoteDoc.DocDueDate
+                    objMainDoc.NumAtCard = objremoteDoc.NumAtCard
+                    objMainDoc.Comments = objremoteDoc.Comments
+                    objMainDoc.DiscountPercent = objremoteDoc.DiscountPercent
+                    objMainDoc.DocCurrency = objremoteDoc.DocCurrency
+                    objMainDoc.ShipToCode = objremoteDoc.ShipToCode
+                    objMainDoc.SalesPersonCode = objremoteDoc.SalesPersonCode
+                    objMainDoc.TaxDate = objremoteDoc.TaxDate
+                    objMainDoc.PaymentGroupCode = objremoteDoc.PaymentGroupCode
+                    objMainDoc.Address = objremoteDoc.Address
+                    objMainDoc.Address2 = objremoteDoc.Address2
+                    objMainDoc.AgentCode = objremoteDoc.AgentCode
+                    objMainDoc.BPChannelCode = objremoteDoc.BPChannelCode
+                    objMainDoc.BPChannelContact = objremoteDoc.BPChannelContact
+                    objMainDoc.ContactPersonCode = objremoteDoc.ContactPersonCode
+                    objMainDoc.DocRate = objremoteDoc.DocRate
+                    objMainDoc.DocType = objremoteDoc.DocType
+                    '  objMainDoc.TransportationCode = objremoteDoc.TransportationCode
+                    If objremoteDoc.Rounding = SAPbobsCOM.BoYesNoEnum.tYES Then
+                        objMainDoc.Rounding = SAPbobsCOM.BoYesNoEnum.tYES
+                        objMainDoc.RoundingDiffAmount = objremoteDoc.RoundingDiffAmount
+                    Else
+                        objMainDoc.Rounding = SAPbobsCOM.BoYesNoEnum.tNO
                     End If
-                Next
 
-                For intLoop As Integer = 0 To objremoteDoc.Lines.Count - 1
-                    If intLoop > 0 Then
-                        objMainDoc.Lines.Add()
-                        objMainDoc.Lines.SetCurrentLine(intLoop)
-                    End If
-                    objremoteDoc.Lines.SetCurrentLine(intLoop)
-                    '    objMainDoc.Lines.SerialNumbers.BaseLineNumber = objremoteDoc.Lines.SerialNumbers.BaseLineNumber
-                    objMainDoc.Lines.AccountCode = objremoteDoc.Lines.AccountCode
-                    objMainDoc.Lines.ItemDescription = objremoteDoc.Lines.ItemDescription
-                    objMainDoc.Lines.ItemCode = objremoteDoc.Lines.ItemCode
-                    objMainDoc.Lines.BarCode = objremoteDoc.Lines.BarCode
-                    objMainDoc.Lines.UnitPrice = objremoteDoc.Lines.UnitPrice
-                    objMainDoc.Lines.AccountCode = objremoteDoc.Lines.AccountCode
-                    objMainDoc.Lines.DiscountPercent = objremoteDoc.Lines.DiscountPercent
-                    objMainDoc.Lines.VatGroup = objremoteDoc.Lines.VatGroup
-                    objMainDoc.Lines.PriceAfterVAT = objremoteDoc.Lines.PriceAfterVAT
-                    objMainDoc.Lines.LineTotal = objremoteDoc.Lines.LineTotal
-                    objMainDoc.Lines.ProjectCode = objremoteDoc.Lines.ProjectCode
-                    objMainDoc.Lines.Quantity = objremoteDoc.Lines.Quantity
-
-                    objMainDoc.Lines.CostingCode = objremoteDoc.Lines.CostingCode
-                    objMainDoc.Lines.CostingCode2 = objremoteDoc.Lines.CostingCode2
-                    objMainDoc.Lines.CostingCode3 = objremoteDoc.Lines.CostingCode3
-                    objMainDoc.Lines.CostingCode4 = objremoteDoc.Lines.CostingCode4
-                    objMainDoc.Lines.CostingCode5 = objremoteDoc.Lines.CostingCode5
-                    'objMainDoc.Lines.COGSCostingCode = objremoteDoc.Lines.COGSCostingCode
-                    'objMainDoc.Lines.COGSCostingCode2 = objremoteDoc.Lines.COGSCostingCode2
-                    'objMainDoc.Lines.COGSCostingCode3 = objremoteDoc.Lines.COGSCostingCode3
-                    'objMainDoc.Lines.COGSCostingCode4 = objremoteDoc.Lines.COGSCostingCode4
-                    'objMainDoc.Lines.COGSCostingCode5 = objremoteDoc.Lines.COGSCostingCode5
-                    'objMainDoc.Lines.CommisionPercent = objremoteDoc.Lines.CommisionPercent
-                    'objMainDoc.Lines.ConsumerSalesForecast = objremoteDoc.Lines.ConsumerSalesForecast
-                    'objMainDoc.Lines.CorrectionInvoiceItem = objremoteDoc.Lines.CorrectionInvoiceItem
-                    'objMainDoc.Lines.CorrInvAmountToDiffAcct = objremoteDoc.Lines.CorrInvAmountToDiffAcct
-
-
-                    strBranchWhs = objremoteDoc.Lines.WarehouseCode
-                    objMainrec.DoQuery("Select isnull(WhsCode,'" & strBranchWhs & "') from OWHS where U_Warcode='" & strBranchWhs & "'")
-                    strMainWhs = objMainrec.Fields.Item(0).Value
-
-
-                    objMainDoc.Lines.WarehouseCode = strMainWhs ' objremoteDoc.Lines.WarehouseCode
-
-                    For intSer As Integer = 0 To objremoteDoc.Lines.SerialNumbers.Count - 1
-                        If intSer > 0 Then
-                            objMainDoc.Lines.SerialNumbers.Add()
-                            objMainDoc.Lines.SerialNumbers.SetCurrentLine(intSer)
+                    'Document_LinesClass' 
+                    objMainDoc.UserFields.Fields.Item("U_Import").Value = "Y"
+                    objMainDoc.UserFields.Fields.Item("U_BaseEntry").Value = objremoteDoc.DocEntry
+                    objMainDoc.UserFields.Fields.Item("U_BaseNum").Value = (objremoteDoc.DocNum)
+                    objMainDoc.UserFields.Fields.Item("U_Branch").Value = objRemoteCompany.CompanyName
+                    For IntExp As Integer = 0 To objremoteDoc.Expenses.Count - 1
+                        If objremoteDoc.Expenses.LineTotal > 0 Then
+                            If IntExp > 0 Then
+                                objMainDoc.Expenses.Add()
+                                objMainDoc.Expenses.SetCurrentLine(IntExp)
+                            End If
+                            objremoteDoc.Expenses.SetCurrentLine(IntExp)
+                            objMainDoc.Expenses.BaseDocEntry = objremoteDoc.Expenses.BaseDocEntry
+                            objMainDoc.Expenses.BaseDocLine = objremoteDoc.Expenses.BaseDocLine
+                            objMainDoc.Expenses.BaseDocType = objremoteDoc.Expenses.BaseDocType
+                            objMainDoc.Expenses.DistributionMethod = objremoteDoc.Expenses.DistributionMethod
+                            objMainDoc.Expenses.DistributionRule = objremoteDoc.Expenses.DistributionRule
+                            objMainDoc.Expenses.ExpenseCode = objremoteDoc.Expenses.ExpenseCode
+                            objMainDoc.Expenses.LastPurchasePrice = objremoteDoc.Expenses.LastPurchasePrice
+                            objMainDoc.Expenses.LineTotal = objremoteDoc.Expenses.LineTotal
+                            objMainDoc.Expenses.Remarks = objremoteDoc.Expenses.Remarks
+                            objMainDoc.Expenses.TaxCode = objremoteDoc.Expenses.TaxCode
+                            objMainDoc.Expenses.VatGroup = objremoteDoc.Expenses.VatGroup
                         End If
-                        objremoteDoc.Lines.SerialNumbers.SetCurrentLine(intSer)
-                        objMainDoc.Lines.SerialNumbers.BaseLineNumber = objremoteDoc.Lines.SerialNumbers.BaseLineNumber
-                        '  objMainDoc.Lines.SerialNumbers.BatchID = objremoteDoc.Lines.SerialNumbers.BatchID
-                        objMainDoc.Lines.SerialNumbers.ExpiryDate = objremoteDoc.Lines.SerialNumbers.ExpiryDate
-                        objMainDoc.Lines.SerialNumbers.InternalSerialNumber = objremoteDoc.Lines.SerialNumbers.InternalSerialNumber
-                        ' objMainDoc.Lines.SerialNumbers.Location = objremoteDoc.Lines.SerialNumbers.Location
-                        objMainDoc.Lines.SerialNumbers.ManufactureDate = objremoteDoc.Lines.SerialNumbers.ManufactureDate
-                        objMainDoc.Lines.SerialNumbers.ManufacturerSerialNumber = objremoteDoc.Lines.SerialNumbers.ManufacturerSerialNumber
-                        objMainDoc.Lines.SerialNumbers.Notes = objremoteDoc.Lines.SerialNumbers.Notes
-                        objMainDoc.Lines.SerialNumbers.ReceptionDate = objremoteDoc.Lines.SerialNumbers.ReceptionDate
-                        ' objMainDoc.Lines.SerialNumbers.SystemSerialNumber = objremoteDoc.Lines.SerialNumbers.SystemSerialNumber
                     Next
 
-                    For intSer As Integer = 0 To objremoteDoc.Lines.BatchNumbers.Count - 1
-                        If intSer > 0 Then
-                            objMainDoc.Lines.BatchNumbers.Add()
-                            objMainDoc.Lines.BatchNumbers.SetCurrentLine(intSer)
+                    For intLoop As Integer = 0 To objremoteDoc.Lines.Count - 1
+                        If intLoop > 0 Then
+                            objMainDoc.Lines.Add()
+                            objMainDoc.Lines.SetCurrentLine(intLoop)
                         End If
-                        objremoteDoc.Lines.BatchNumbers.SetCurrentLine(intSer)
-                        objMainDoc.Lines.BatchNumbers.AddmisionDate = objremoteDoc.Lines.BatchNumbers.AddmisionDate
-                        objMainDoc.Lines.BatchNumbers.BaseLineNumber = objremoteDoc.Lines.BatchNumbers.BaseLineNumber
-                        objMainDoc.Lines.BatchNumbers.BatchNumber = objremoteDoc.Lines.BatchNumbers.BatchNumber
-                        objMainDoc.Lines.BatchNumbers.ExpiryDate = objremoteDoc.Lines.BatchNumbers.ExpiryDate
-                        objMainDoc.Lines.BatchNumbers.InternalSerialNumber = objremoteDoc.Lines.BatchNumbers.InternalSerialNumber
-                        objMainDoc.Lines.BatchNumbers.Location = objremoteDoc.Lines.BatchNumbers.Location
-                        objMainDoc.Lines.BatchNumbers.ManufacturingDate = objremoteDoc.Lines.BatchNumbers.ManufacturingDate
-                        objMainDoc.Lines.BatchNumbers.Notes = objremoteDoc.Lines.BatchNumbers.Notes
-                        objMainDoc.Lines.BatchNumbers.Quantity = objremoteDoc.Lines.BatchNumbers.Quantity
-                    Next
-                Next
+                        objremoteDoc.Lines.SetCurrentLine(intLoop)
+                        '    objMainDoc.Lines.SerialNumbers.BaseLineNumber = objremoteDoc.Lines.SerialNumbers.BaseLineNumber
+                        objMainDoc.Lines.AccountCode = objremoteDoc.Lines.AccountCode
+                        objMainDoc.Lines.ItemDescription = objremoteDoc.Lines.ItemDescription
+                        objMainDoc.Lines.ItemCode = objremoteDoc.Lines.ItemCode
+                        objMainDoc.Lines.BarCode = objremoteDoc.Lines.BarCode
+                        objMainDoc.Lines.UnitPrice = objremoteDoc.Lines.UnitPrice
+                        objMainDoc.Lines.AccountCode = objremoteDoc.Lines.AccountCode
+                        objMainDoc.Lines.DiscountPercent = objremoteDoc.Lines.DiscountPercent
+                        objMainDoc.Lines.VatGroup = objremoteDoc.Lines.VatGroup
+                        objMainDoc.Lines.PriceAfterVAT = objremoteDoc.Lines.PriceAfterVAT
+                        objMainDoc.Lines.LineTotal = objremoteDoc.Lines.LineTotal
+                        objMainDoc.Lines.ProjectCode = objremoteDoc.Lines.ProjectCode
+                        objMainDoc.Lines.Quantity = objremoteDoc.Lines.Quantity
 
-                If objMainDoc.Add <> 0 Then
-                    sPath = strErrorLogPath
-                    WriteErrorlog("Failed to create Credit Notes docuemnt :" & objMainCompany.GetLastErrorDescription, sPath)
-                Else
-                    Dim strDocNum As String
-                    objMainCompany.GetNewObjectCode(strDocNum)
-                    'MsgBox("DOcument created :" & strDocNum)
-                    sPath = strErrorLogPath
-                    WriteErrorlog("Credit Notes Created Successfully. DocNum : " & strDocNum, sPath)
-                    objremoteDoc.UserFields.Fields.Item("U_Export").Value = "Y"
-                    objremoteDoc.Update()
+                        objMainDoc.Lines.CostingCode = objremoteDoc.Lines.CostingCode
+                        objMainDoc.Lines.CostingCode2 = objremoteDoc.Lines.CostingCode2
+                        objMainDoc.Lines.CostingCode3 = objremoteDoc.Lines.CostingCode3
+                        objMainDoc.Lines.CostingCode4 = objremoteDoc.Lines.CostingCode4
+                        objMainDoc.Lines.CostingCode5 = objremoteDoc.Lines.CostingCode5
+                        'objMainDoc.Lines.COGSCostingCode = objremoteDoc.Lines.COGSCostingCode
+                        'objMainDoc.Lines.COGSCostingCode2 = objremoteDoc.Lines.COGSCostingCode2
+                        'objMainDoc.Lines.COGSCostingCode3 = objremoteDoc.Lines.COGSCostingCode3
+                        'objMainDoc.Lines.COGSCostingCode4 = objremoteDoc.Lines.COGSCostingCode4
+                        'objMainDoc.Lines.COGSCostingCode5 = objremoteDoc.Lines.COGSCostingCode5
+                        'objMainDoc.Lines.CommisionPercent = objremoteDoc.Lines.CommisionPercent
+                        'objMainDoc.Lines.ConsumerSalesForecast = objremoteDoc.Lines.ConsumerSalesForecast
+                        'objMainDoc.Lines.CorrectionInvoiceItem = objremoteDoc.Lines.CorrectionInvoiceItem
+                        'objMainDoc.Lines.CorrInvAmountToDiffAcct = objremoteDoc.Lines.CorrInvAmountToDiffAcct
+
+
+                        strBranchWhs = objremoteDoc.Lines.WarehouseCode
+                        objMainrec.DoQuery("Select isnull(WhsCode,'" & strBranchWhs & "') from OWHS where U_Warcode='" & strBranchWhs & "'")
+                        strMainWhs = objMainrec.Fields.Item(0).Value
+
+
+                        objMainDoc.Lines.WarehouseCode = strMainWhs ' objremoteDoc.Lines.WarehouseCode
+
+                        For intSer As Integer = 0 To objremoteDoc.Lines.SerialNumbers.Count - 1
+                            If intSer > 0 Then
+                                objMainDoc.Lines.SerialNumbers.Add()
+                                objMainDoc.Lines.SerialNumbers.SetCurrentLine(intSer)
+                            End If
+                            objremoteDoc.Lines.SerialNumbers.SetCurrentLine(intSer)
+                            objMainDoc.Lines.SerialNumbers.BaseLineNumber = objremoteDoc.Lines.SerialNumbers.BaseLineNumber
+                            '  objMainDoc.Lines.SerialNumbers.BatchID = objremoteDoc.Lines.SerialNumbers.BatchID
+                            objMainDoc.Lines.SerialNumbers.ExpiryDate = objremoteDoc.Lines.SerialNumbers.ExpiryDate
+                            objMainDoc.Lines.SerialNumbers.InternalSerialNumber = objremoteDoc.Lines.SerialNumbers.InternalSerialNumber
+                            ' objMainDoc.Lines.SerialNumbers.Location = objremoteDoc.Lines.SerialNumbers.Location
+                            objMainDoc.Lines.SerialNumbers.ManufactureDate = objremoteDoc.Lines.SerialNumbers.ManufactureDate
+                            objMainDoc.Lines.SerialNumbers.ManufacturerSerialNumber = objremoteDoc.Lines.SerialNumbers.ManufacturerSerialNumber
+                            objMainDoc.Lines.SerialNumbers.Notes = objremoteDoc.Lines.SerialNumbers.Notes
+                            objMainDoc.Lines.SerialNumbers.ReceptionDate = objremoteDoc.Lines.SerialNumbers.ReceptionDate
+                            ' objMainDoc.Lines.SerialNumbers.SystemSerialNumber = objremoteDoc.Lines.SerialNumbers.SystemSerialNumber
+                        Next
+
+                        For intSer As Integer = 0 To objremoteDoc.Lines.BatchNumbers.Count - 1
+                            If intSer > 0 Then
+                                objMainDoc.Lines.BatchNumbers.Add()
+                                objMainDoc.Lines.BatchNumbers.SetCurrentLine(intSer)
+                            End If
+                            objremoteDoc.Lines.BatchNumbers.SetCurrentLine(intSer)
+                            objMainDoc.Lines.BatchNumbers.AddmisionDate = objremoteDoc.Lines.BatchNumbers.AddmisionDate
+                            objMainDoc.Lines.BatchNumbers.BaseLineNumber = objremoteDoc.Lines.BatchNumbers.BaseLineNumber
+                            objMainDoc.Lines.BatchNumbers.BatchNumber = objremoteDoc.Lines.BatchNumbers.BatchNumber
+                            objMainDoc.Lines.BatchNumbers.ExpiryDate = objremoteDoc.Lines.BatchNumbers.ExpiryDate
+                            objMainDoc.Lines.BatchNumbers.InternalSerialNumber = objremoteDoc.Lines.BatchNumbers.InternalSerialNumber
+                            objMainDoc.Lines.BatchNumbers.Location = objremoteDoc.Lines.BatchNumbers.Location
+                            objMainDoc.Lines.BatchNumbers.ManufacturingDate = objremoteDoc.Lines.BatchNumbers.ManufacturingDate
+                            objMainDoc.Lines.BatchNumbers.Notes = objremoteDoc.Lines.BatchNumbers.Notes
+                            objMainDoc.Lines.BatchNumbers.Quantity = objremoteDoc.Lines.BatchNumbers.Quantity
+                        Next
+                    Next
+
+                    If objMainDoc.Add <> 0 Then
+                        sPath = strErrorLogPath
+                        WriteErrorlog("Failed to create Credit Notes docuemnt :" & objMainCompany.GetLastErrorDescription, sPath)
+                    Else
+                        Dim strDocNum As String
+                        objMainCompany.GetNewObjectCode(strDocNum)
+                        'MsgBox("DOcument created :" & strDocNum)
+                        sPath = strErrorLogPath
+                        WriteErrorlog("Credit Notes Created Successfully. DocNum : " & strDocNum, sPath)
+                        objremoteDoc.UserFields.Fields.Item("U_Export").Value = "Y"
+                        objremoteDoc.Update()
+                    End If
                 End If
+                objremoteRec.MoveNext()
+            Next
+
+        Catch ex As Exception
+            If Not IsNothing(objremoteDoc) Then
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(objremoteDoc)
+                GC.Collect()
             End If
-            objremoteRec.MoveNext()
-        Next
+            If Not IsNothing(objMainDoc) Then
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(objMainDoc)
+                GC.Collect()
+            End If
+        End Try
     End Sub
 #End Region
 
@@ -7808,6 +8205,71 @@ Public Class frmLoginScreen
         Return True
     End Function
 
+    Private Function connectMainCompanyCheck() As Boolean
+        sPath = strErrorLogPath
+        Try
+
+            sPath = strErrorLogPath
+            oCompany = New SAPbobsCOM.Company
+            oCompany.Server = strMainSQLServer
+            oCompany.LicenseServer = strMainLicenseServer ' "Compaq-PC:30000"
+            oCompany.language = SAPbobsCOM.BoSuppLangs.ln_English
+            ' oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2005
+            If strMainServertype = "2005" Then
+                oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2005
+            ElseIf strLocalServertype = "2008" Then
+                oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2008
+            ElseIf strLocalServertype = "2012" Then
+                oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2012
+            ElseIf strLocalServertype = "2014" Then
+                oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2014
+            End If
+            oCompany.DbUserName = strMainSQLUID
+            oCompany.DbPassword = strMainSQLPWD
+            Dim oRecs As SAPbobsCOM.Recordset
+            '    oRecs = oCompany.GetCompanyList()
+            WriteErrorlog("Connection to Main SAP B1 started : " & strMainSAPCompany, sPath)
+            ' MsgBox(oRecs.RecordCount)
+            If oCompany.Connect <> 0 Then
+                ' Return False
+            Else
+                'MsgBox("Connected")
+            End If
+            If oCompany.Connected Then
+                'MsgBox("Company connected")
+            End If
+            oCompany.CompanyDB = strMainSAPCompany ' cmbMainSAPCompany.Text
+            oCompany.UserName = strMainSAPUID
+            oCompany.Password = strMainSAPPWD
+            If oCompany.Connected = True Then
+                'If (objPC.Initialise(oCompany)) Then
+                'Else
+                '    ' MsgBox("Error in Connection")
+                'End If
+                WriteiniFile()
+                objMainCompany = oCompany
+                Return True
+            Else
+                If oCompany.Connect <> 0 Then
+                    'MsgBox("Connection to Main SAP B1 failed. Error Description :" & oCompany.GetLastErrorDescription)
+                    WriteErrorlog("Connection to Main SAP B1 : " & strMainSAPCompany & "  failed. Error Description :" & oCompany.GetLastErrorDescription, sPath)
+                    Return False
+                Else
+                    WriteiniFile()
+                    'MsgBox("Main SAP B1 company Connected successfully")
+                    WriteErrorlog("Main SAP B1 : " & strMainSAPCompany & " Company connected", sPath)
+                    objMainCompany = oCompany
+                    Return True
+                End If
+            End If
+        Catch ex As Exception
+            ' MsgBox(ex.Message)
+            WriteErrorlog(ex.Message, sPath)
+            Return False
+        End Try
+        Return True
+    End Function
+
     Private Function connectLocalCompany() As Boolean
         sPath = strErrorLogPath
         Try
@@ -7844,6 +8306,60 @@ Public Class frmLoginScreen
             oCompany.CompanyDB = strSAPCompany ' cmbCompanyDB.Text
             oCompany.UserName = txtSBOUserName.Text
             oCompany.Password = txtCompanyPWD.Text
+            WriteErrorlog("Connection to Retail DB  : " & strSAPCompany & " started    ", sPath)
+            If oCompany.Connected = True Then
+                If (objPC.Initialise(oCompany)) Then
+                Else
+                    'MsgBox("Error in Connection")
+                    WriteErrorlog("Error in Connection to Local Server", sPath)
+                    Return False
+                End If
+                '  WriteiniFile_Folder(sPath)
+                WriteiniFile()
+                objRemoteCompany = oCompany
+                Return True
+            Else
+                If oCompany.Connect <> 0 Then
+                    WriteErrorlog("Connection to Retail DB  : " & strSAPCompany & " failed. : " & strSAPCompany & " : Error Description :" & oCompany.GetLastErrorDescription, sPath)
+                    Return False
+                Else
+                    WriteiniFile()
+                    WriteErrorlog("Retail DB  : " & strSAPCompany & " Connected successfully", sPath)
+                    objRemoteCompany = oCompany
+                    Return True
+                End If
+            End If
+        Catch ex As Exception
+            ' MsgBox(ex.Message)
+            WriteErrorlog(ex.Message, sPath)
+            Return False
+        End Try
+        Return True
+    End Function
+
+    Private Function connectLocalCompanyCheck() As Boolean
+        sPath = strErrorLogPath
+        Try
+
+            oCompany = New SAPbobsCOM.Company
+            oCompany.Server = strSQLServer
+            oCompany.language = SAPbobsCOM.BoSuppLangs.ln_English
+            If strLocalServertype = "2005" Then
+                oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2005
+            ElseIf strLocalServertype = "2008" Then
+                oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2008
+            ElseIf strLocalServertype = "2012" Then
+                oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2012
+            ElseIf strLocalServertype = "2014" Then
+                oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2014
+            End If
+
+            oCompany.LicenseServer = strLocalLicensserver ' "Compaq-PC:30000"
+            oCompany.DbUserName = strSQLUID
+            oCompany.DbPassword = strSQLPWD
+            oCompany.CompanyDB = strSAPCompany ' cmbCompanyDB.Text
+            oCompany.UserName = strSAPUID
+            oCompany.Password = strSAPPWD
             WriteErrorlog("Connection to Retail DB  : " & strSAPCompany & " started    ", sPath)
             If oCompany.Connected = True Then
                 If (objPC.Initialise(oCompany)) Then

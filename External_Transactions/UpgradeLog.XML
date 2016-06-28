@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="External_Transactions">
+</Property><Property Name="Solution File" Value="D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\External_Transactions.sln">
+</Property><Property Name="Date" Value="Tuesday, April 19, 2016">
+</Property><Property Name="Time" Value="14:51 PM">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="External_Transactions.sln" Description="File successfully backed up as D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\Backup\External_Transactions.sln">
+</Event><Event ErrorLevel="0" Project="External_Transactions" Source="External_Transactions.vbproj" Description="Project file successfully backed up as D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\Backup\External_Transactions.vbproj">
+</Event><Event ErrorLevel="0" Project="External_Transactions" Source="External_Transactions.vbproj.user" Description="Project user file successfully backed up as D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\Backup\External_Transactions.vbproj.user">
+</Event><Event ErrorLevel="0" Project="External_Transactions" Source="AssemblyInfo.vb" Description="File successfully backed up as D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\Backup\AssemblyInfo.vb">
+</Event><Event ErrorLevel="0" Project="External_Transactions" Source="FrameWork\clsMain.vb" Description="File successfully backed up as D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\Backup\FrameWork\clsMain.vb">
+</Event><Event ErrorLevel="0" Project="External_Transactions" Source="FrameWork\ClsSBO.vb" Description="File successfully backed up as D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\Backup\FrameWork\ClsSBO.vb">
+</Event><Event ErrorLevel="0" Project="External_Transactions" Source="FrameWork\clsUtilities.vb" Description="File successfully backed up as D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\Backup\FrameWork\clsUtilities.vb">
+</Event><Event ErrorLevel="0" Project="External_Transactions" Source="FrameWork\frmLoginScreen.vb" Description="File successfully backed up as D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\Backup\FrameWork\frmLoginScreen.vb">
+</Event><Event ErrorLevel="0" Project="External_Transactions" Source="FrameWork\Startup.vb" Description="File successfully backed up as D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\Backup\FrameWork\Startup.vb">
+</Event><Event ErrorLevel="0" Project="External_Transactions" Source="bin\ConnectionInfo.ini" Description="File successfully backed up as D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\Backup\bin\ConnectionInfo.ini">
+</Event><Event ErrorLevel="0" Project="External_Transactions" Source="bin\PROMFLQ.mfp" Description="File successfully backed up as D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\Backup\bin\PROMFLQ.mfp">
+</Event><Event ErrorLevel="0" Project="External_Transactions" Source="bin\BP.xml" Description="File successfully backed up as D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\Backup\bin\BP.xml">
+</Event><Event ErrorLevel="0" Project="External_Transactions" Source="bin\CLOCK05.ICO" Description="File successfully backed up as D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\Backup\bin\CLOCK05.ICO">
+</Event><Event ErrorLevel="0" Project="External_Transactions" Source="bin\Interop.SAPbobsCOM.dll" Description="File successfully backed up as D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\Backup\bin\Interop.SAPbobsCOM.dll">
+</Event><Event ErrorLevel="0" Project="External_Transactions" Source="bin\Item.xml" Description="File successfully backed up as D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\Backup\bin\Item.xml">
+</Event><Event ErrorLevel="0" Project="External_Transactions" Source="CLOCK05.ICO" Description="File successfully backed up as D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\Backup\CLOCK05.ICO">
+</Event><Event ErrorLevel="0" Project="External_Transactions" Source="FrameWork\frmLoginScreen.resx" Description="File successfully backed up as D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\Backup\FrameWork\frmLoginScreen.resx">
+</Event><Event ErrorLevel="1" Project="External_Transactions" Source="External_Transactions.vbproj" Description="Your project is targeting .NET Framework 2.0 or 3.0. If your project uses assemblies requiring a newer .NET Framework, your project will fail to build. You can change the .NET Framework version by clicking Properties on the project menu and then selecting a new version in the '.NET Framework' dropdown box. (In Visual Basic, this is located on the Compile tab by clicking the 'Advanced Compiler Options...' button.)">
+</Event><Event ErrorLevel="0" Project="External_Transactions" Source="External_Transactions.vbproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="External_Transactions" Source="External_Transactions.vbproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="External_Transactions.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="External_Transactions.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="External_Transactions" Source="External_Transactions.vbproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

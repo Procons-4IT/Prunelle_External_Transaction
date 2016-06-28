@@ -1,0 +1,57 @@
+D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\obj\Debug\Interop.SAPbobsCOM.dll
+D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\obj\Debug\External_Transactions.vbproj.ResolveComReference.cache
+D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\bin\External_Transactions.exe.config
+D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\obj\Debug\External_Transactions.frmLoginScreen.resources
+D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\obj\Debug\External_Transactions.vbproj.GenerateResource.Cache
+D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\bin\External_Transactions.exe
+D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\bin\External_Transactions.pdb
+D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\bin\External_Transactions.xml
+D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\bin\Interop.SAPbobsCOM.dll
+D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\obj\Debug\External_Transactions.exe
+D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\obj\Debug\External_Transactions.xml
+D:\Solutions\AddOns\Prunelle_External_Transaction\External_Transactions\Backup\obj\Debug\External_Transactions.pdb
+C:\Users\Administrator\Desktop\Prunel 22-04-2016\External_Transactions\Backup\bin\External_Transactions.exe.config
+C:\Users\Administrator\Desktop\Prunel 22-04-2016\External_Transactions\Backup\obj\Debug\Interop.SAPbobsCOM.dll
+C:\Users\Administrator\Desktop\Prunel 22-04-2016\External_Transactions\Backup\obj\Debug\External_Transactions.vbproj.ResolveComReference.cache
+C:\Users\Administrator\Desktop\Prunel 22-04-2016\External_Transactions\Backup\obj\Debug\External_Transactions.exe
+C:\Users\Administrator\Desktop\Prunel 22-04-2016\External_Transactions\Backup\obj\Debug\External_Transactions.xml
+C:\Users\Administrator\Desktop\Prunel 22-04-2016\External_Transactions\Backup\obj\Debug\External_Transactions.pdb
+C:\Users\Administrator\Desktop\Prunel 22-04-2016\External_Transactions\Backup\bin\External_Transactions.exe
+C:\Users\Administrator\Desktop\Prunel 22-04-2016\External_Transactions\Backup\bin\External_Transactions.pdb
+C:\Users\Administrator\Desktop\Prunel 22-04-2016\External_Transactions\Backup\bin\External_Transactions.xml
+C:\Users\Administrator\Desktop\Prunel 22-04-2016\External_Transactions\Backup\obj\Debug\External_Transactions.frmLoginScreen.resources
+C:\Users\Administrator\Desktop\Prunel 22-04-2016\External_Transactions\Backup\obj\Debug\External_Transactions.vbproj.GenerateResource.Cache
+D:\Solutions\VS Addons\External_Transactions\Backup\bin\External_Transactions.exe.config
+D:\Solutions\VS Addons\External_Transactions\Backup\obj\Debug\Interop.SAPbobsCOM.dll
+D:\Solutions\VS Addons\External_Transactions\Backup\obj\Debug\External_Transactions.vbproj.ResolveComReference.cache
+D:\Solutions\VS Addons\External_Transactions\Backup\obj\Debug\External_Transactions.exe
+D:\Solutions\VS Addons\External_Transactions\Backup\obj\Debug\External_Transactions.xml
+D:\Solutions\VS Addons\External_Transactions\Backup\obj\Debug\External_Transactions.pdb
+C:\Users\Administrator\Desktop\External_Transactions\Backup\bin\External_Transactions.exe.config
+C:\Users\Administrator\Desktop\External_Transactions\Backup\obj\Debug\Interop.SAPbobsCOM.dll
+C:\Users\Administrator\Desktop\External_Transactions\Backup\obj\Debug\External_Transactions.vbproj.ResolveComReference.cache
+C:\Users\Administrator\Desktop\External_Transactions\Backup\obj\Debug\External_Transactions.exe
+C:\Users\Administrator\Desktop\External_Transactions\Backup\obj\Debug\External_Transactions.xml
+C:\Users\Administrator\Desktop\External_Transactions\Backup\obj\Debug\External_Transactions.pdb
+D:\Solutions\2010 VS Solutions\Prunelle.ExternalTransactions\bin\External_Transactions.exe.config
+D:\Solutions\2010 VS Solutions\Prunelle.ExternalTransactions\bin\External_Transactions.exe
+D:\Solutions\2010 VS Solutions\Prunelle.ExternalTransactions\bin\External_Transactions.pdb
+D:\Solutions\2010 VS Solutions\Prunelle.ExternalTransactions\bin\External_Transactions.xml
+D:\Solutions\2010 VS Solutions\Prunelle.ExternalTransactions\obj\Debug\Interop.SAPbobsCOM.dll
+D:\Solutions\2010 VS Solutions\Prunelle.ExternalTransactions\obj\Debug\External_Transactions.vbproj.ResolveComReference.cache
+D:\Solutions\2010 VS Solutions\Prunelle.ExternalTransactions\obj\Debug\External_Transactions.frmLoginScreen.resources
+D:\Solutions\2010 VS Solutions\Prunelle.ExternalTransactions\obj\Debug\External_Transactions.vbproj.GenerateResource.Cache
+D:\Solutions\2010 VS Solutions\Prunelle.ExternalTransactions\obj\Debug\External_Transactions.exe
+D:\Solutions\2010 VS Solutions\Prunelle.ExternalTransactions\obj\Debug\External_Transactions.xml
+D:\Solutions\2010 VS Solutions\Prunelle.ExternalTransactions\obj\Debug\External_Transactions.pdb
+F:\Internation Projects 2016\Procons4it\Double Booking SQL\Transaction\Prunelle.ExternalTransactions\bin\External_Transactions.exe.config
+F:\Internation Projects 2016\Procons4it\Double Booking SQL\Transaction\Prunelle.ExternalTransactions\obj\Debug\Interop.SAPbobsCOM.dll
+F:\Internation Projects 2016\Procons4it\Double Booking SQL\Transaction\Prunelle.ExternalTransactions\obj\Debug\External_Transactions.vbproj.ResolveComReference.cache
+F:\Internation Projects 2016\Procons4it\Double Booking SQL\Transaction\Prunelle.ExternalTransactions\obj\Debug\External_Transactions.exe
+F:\Internation Projects 2016\Procons4it\Double Booking SQL\Transaction\Prunelle.ExternalTransactions\obj\Debug\External_Transactions.xml
+F:\Internation Projects 2016\Procons4it\Double Booking SQL\Transaction\Prunelle.ExternalTransactions\obj\Debug\External_Transactions.pdb
+F:\Internation Projects 2016\Procons4it\Double Booking SQL\Transaction\Prunelle.ExternalTransactions\bin\External_Transactions.exe
+F:\Internation Projects 2016\Procons4it\Double Booking SQL\Transaction\Prunelle.ExternalTransactions\bin\External_Transactions.pdb
+F:\Internation Projects 2016\Procons4it\Double Booking SQL\Transaction\Prunelle.ExternalTransactions\bin\External_Transactions.xml
+F:\Internation Projects 2016\Procons4it\Double Booking SQL\Transaction\Prunelle.ExternalTransactions\obj\Debug\External_Transactions.frmLoginScreen.resources
+F:\Internation Projects 2016\Procons4it\Double Booking SQL\Transaction\Prunelle.ExternalTransactions\obj\Debug\External_Transactions.vbproj.GenerateResource.Cache
